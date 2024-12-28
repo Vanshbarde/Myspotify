@@ -1,34 +1,62 @@
-const express = requir("express");
+const express = require('express');
 const router = express.Router();
-const User = require("backend_spotify/models/user.js");
-const bcrypt = require("bcrypt");
-const {getToken} = require("backend_spotify/utils/helpers.js");
-// this will  help to register
-router.post("/register", async (req,res) =>{
-    //this codee will run when the /register is call
-    //my req.body will contain email , name , password , username
-    const {email , password , firstname , lastname , username } = req.body;
+const User = require('../models/User'); // Correct in auth.js, song.js, playlist.js
 
-    // now i willl check does the any user with this email is exist  if it is then we thrown an error
-    const user = await User.findone({email : email});
-    if(user){
-        return res.status(403).json({error:"the user already exist with this email"});
+const bcrypt = require('bcrypt');
+const { getToken } = require('../utils/helpers');
 
+
+// Route to register a new user
+router.post('/register', async (req, res) => {
+  try {
+    const { email, password, firstname, lastname, username } = req.body;
+
+    // Check if a user with this email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(403).json({ error: 'A user already exists with this email' });
     }
-    //we want to store the user passord in onother way in database through which no one can acces it so we are using here hashing method
-    const hashedPassword = bcrypt.hash(password, 10);
 
-     //if the user is not exist then creating the new user
-     const newUserData = {email , password:hashedPassword , firstname , lastname , username };
-     const newUser = await User.create(newUserData);
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Create a new user
+    const newUser = new User({ email, password: hashedPassword, firstname, lastname, username });
+    await newUser.save();
 
-    //we want to create a token to return to the user
-    const token = await getToken(email , newUser)
+    // Create a token to return to the user
+    const token = await getToken(newUser.email, newUser);
 
-
-    //now return the result to the user
-    const userToReturn = {...newUser.toJSON(), token};
+    // Return the user details along with the token, excluding the password
+    const userToReturn = { ...newUser.toJSON(), token };
     delete userToReturn.password;
     return res.status(200).json(userToReturn);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
+
+// Route to log in an existing user
+router.post('/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(403).json({ error: 'Invalid email (credentials)' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(403).json({ error: 'Invalid password (credentials)' });
+    }
+
+    const token = await getToken(user.email, user);
+    const userToReturn = { ...user.toJSON(), token };
+    delete userToReturn.password;
+    return res.status(200).json(userToReturn);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+module.exports = router;

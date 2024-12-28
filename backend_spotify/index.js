@@ -1,55 +1,55 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const passport = require('passport');
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 const app = express();
 const port = 3000;
-var JwtStrategy = require('passport-jwt').Strategy,
-    ExtractJwt = require('passport-jwt').ExtractJwt;
-    const passport = require("passport");
-    const user = require("backend_spotify/models/user.js");
 
-// Correctly construct the MongoDB connection string using the environment variable
+// Middleware to parse incoming JSON requests
+app.use(express.json());
+
+// Import routes
+const authRoutes = require('./routes/auth');
+const songRoutes = require('./routes/song');
+const playlistRoutes = require('./routes/playlist');
 const mongoURI = `mongodb+srv://vanshbarde805:${process.env.MONGO_PASSWORD}@cluster0.kgohx.mongodb.net/spotifyclone?retryWrites=true&w=majority&appName=Cluster0`;
-
-// Use the constructed mongoURI directly
+// MongoDB connection
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-.then(() => {
-  console.log('Connected to MongoDB');
-})
-.catch((error) => {
-  console.error('Error connecting to MongoDB:', error);
-});
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((error) => console.error('Error connecting to MongoDB:', error));
 
-//setup passport jwt
+// Passport JWT setup
+passport.use(
+  new JwtStrategy(
+    {
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: 'your_jwt_secret_key',
+    },
+    async (jwt_payload, done) => {
+      try {
+        const User = require('./models/User');
+        const user = await User.findById(jwt_payload.id);
+        return done(null, user || false);
+      } catch (err) {
+        return done(err, false);
+      }
+    }
+  )
+);
 
-let opts = {}
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = 'secret';
-// opts.issuer = 'accounts.examplesoft.com';
-// opts.audience = 'yoursite.net';
-passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-    User.findOne({id: jwt_payload.sub}, function(err, user) {
-        if (err) {
-            return done(err, false);
-        }
-        if (user) {
-            return done(null, user);
-        } else {
-            return done(null, false);
-            // or you could create a new account
-        }
-    });
-}));
+app.use(passport.initialize());
 
+// Routes
+app.get('/', (req, res) => res.send('Hello, World!'));
+app.use('/auth', authRoutes);
+app.use('/song', songRoutes);
+app.use('/playlist', playlistRoutes);
 
-app.get('/', (req, res) => {
-  res.send('Hello, World!');
-});
-
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+// Start server
+app.listen(port, () => console.log(`Server is running on port ${port}`));

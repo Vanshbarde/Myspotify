@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
 
+ import './App.css';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import './output.css';
+import LoginComponent from './routes/Login';
+import SignupComponent from './routes/Signup';
+import HomeComponent from './routes/Home';
+import { BrowserRouter , Routes , Route } from 'react-router-dom';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="w-screen h-screen font-poppins">
+      <BrowserRouter>
+      <Routes>
+         {/* adding routes coponents here indicates to the package  (react-router-dom)
+        that we are starting to define  our routes  */}
+   <Route path='/'  element = { <div> hi bro how are you </div> }/>
+   <Route path='/login'  element = { <LoginComponent/> }/>     
+   <Route path='/signup'  element = { <SignupComponent/> }/> 
+   <Route path='/home' element = { <HomeComponent/>} />
+
+      </Routes>
+      </BrowserRouter>
     </div>
   );
 }

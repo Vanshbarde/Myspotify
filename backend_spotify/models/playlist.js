@@ -1,13 +1,20 @@
-const mongoose = require('mongoose');
 
 // Define the Playlist schema
+const mongoose = require('mongoose');
+
 const playlistSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true
   },
-  description: {
+  thumbnail: {
     type: String,
+    required: true
+  },
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
   },
   songs: [
     {
@@ -15,16 +22,18 @@ const playlistSchema = new mongoose.Schema({
       ref: 'Song'
     }
   ],
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true
-  },
+  collaborators: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ],
   createdAt: {
     type: Date,
     default: Date.now
   }
 });
+
 
 // Create the Playlist model
 const Playlist = mongoose.model('Playlist', playlistSchema);
