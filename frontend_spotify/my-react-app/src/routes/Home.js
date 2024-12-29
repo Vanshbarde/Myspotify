@@ -25,7 +25,7 @@ const popularartistCardsData = [{
              },
               { title: "Yo Yo Honey Singh",
                  description: "Artist",
-                  imgUrl: "https://tse4.mm.bing.net/th?id=OIP.8r73eYyx59IJXpJZlPEREQHaHa&pid=Api&P=0&h=180" 
+                  imgUrl: "https://tse3.mm.bing.net/th?id=OIP.mFLYnR62wnujO9_QA23SHwAAAA&pid=Api&P=0&h=180" 
                    }];
 
 
@@ -34,23 +34,23 @@ const popularartistCardsData = [{
 const popularalbumsCardsData = [{
     title: "GLORY",
     description: "Yo Yo Honey Singh", // Corrected "discription" to "description"
-    imgUrl: "https://tse3.mm.bing.net/th?id=OIP.0mNM1VgA2xXgxdF2NcQ4hgHaFj&pid=Api&P=0&h=180"
+    imgUrl: "https://tse4.mm.bing.net/th?id=OIP.8r73eYyx59IJXpJZlPEREQHaHa&pid=Api&P=0&h=180"
   },
   { title: "Aashiqui 2",
        description: "Mithoon, Ankit Tiwari,Jeet Gannguli",
-        imgUrl: "https://tse3.mm.bing.net/th?id=OIP.aUBC3eCbBd121xP41BCVpwHaEU&pid=Api&P=0&h=180" 
+        imgUrl: "https://tse2.mm.bing.net/th?id=OIP.iRq2F0VF65ORtQ4TkreX3AHaHa&pid=Api&P=0&h=180" 
         },
          { title: "Patandar", 
           description: "Arjan Dhillon", 
-          imgUrl: "https://tse1.mm.bing.net/th?id=OIP.vYgO0JJXBr4-CcBXkUfEZgHaHo&pid=Api&P=0&h=180" 
+          imgUrl: "https://tse3.mm.bing.net/th?id=OIP.3Jo5hhOWlhcIz2gSuDfBmQHaHa&pid=Api&P=0&h=180" 
           },
            { title: "Jo Tum Mere Ho", 
               description: "Anuv Jain",
-               imgUrl: "https://tse4.mm.bing.net/th?id=OIP.AwOcMS2gUlOjKfCvj3g19gHaEg&pid=Api&P=0&h=180" 
+               imgUrl: "https://tse1.mm.bing.net/th?id=OIP.HWX3R2N4OnYrVBQ7M1JKiAHaEK&pid=Api&P=0&h=180" 
                },
                 { title: "Making Memories",
                    description: "Karan Aujla.ikky",
-                    imgUrl: "https://tse4.mm.bing.net/th?id=OIP.8r73eYyx59IJXpJZlPEREQHaHa&pid=Api&P=0&h=180" 
+                    imgUrl: "https://tse2.mm.bing.net/th?id=OIP.fmagaw4IyB7oCRgMfcSshwHaEK&pid=Api&P=0&h=180" 
                      }];
 
 
@@ -61,23 +61,23 @@ const popularalbumsCardsData = [{
 const popularradioCardsData = [{
     title: "",
     description: "With Mohammed Rafi, Mukesh, Asha Bhosale", // Corrected "discription" to "description"
-    imgUrl: "https://tse3.mm.bing.net/th?id=OIP.0mNM1VgA2xXgxdF2NcQ4hgHaFj&pid=Api&P=0&h=180"
+    imgUrl: "https://tse2.mm.bing.net/th?id=OIP.Wf3Fu5EG7xeR6d0eOEcXtgHaHa&pid=Api&P=0&h=180"
   },
   { title: "",
        description: "With Arjit Singh, Yo Yo Honey Singh",
-        imgUrl: "https://tse3.mm.bing.net/th?id=OIP.aUBC3eCbBd121xP41BCVpwHaEU&pid=Api&P=0&h=180" 
+        imgUrl: "https://tse2.mm.bing.net/th?id=OIP.z3WtqGIXZQ62205794EwAQHaFu&pid=Api&P=0&h=180" 
         },
          { title: "", 
           description: "With Anirudh,Ravichander", 
-          imgUrl: "https://tse1.mm.bing.net/th?id=OIP.vYgO0JJXBr4-CcBXkUfEZgHaHo&pid=Api&P=0&h=180" 
+          imgUrl: "https://tse4.mm.bing.net/th?id=OIP.tETw9_QH2FVIZSbNZhtCVgHaHa&pid=Api&P=0&h=180" 
           },
            { title: "", 
               description: "With A.R.Rahaman , Vishal-Shekhar",
-               imgUrl: "https://tse4.mm.bing.net/th?id=OIP.AwOcMS2gUlOjKfCvj3g19gHaEg&pid=Api&P=0&h=180" 
+               imgUrl: "https://tse3.mm.bing.net/th?id=OIP.YDCvg0YYwCY9ouzjuGh_cwHaEz&pid=Api&P=0&h=180" 
                },
                 { title: "",
                    description: "With Badasha,Subh,Sidhu Musewalla",
-                    imgUrl: "https://tse4.mm.bing.net/th?id=OIP.8r73eYyx59IJXpJZlPEREQHaHa&pid=Api&P=0&h=180" 
+                    imgUrl: "https://tse3.mm.bing.net/th?id=OIP.WVFnl3DpGB46YgwoFkL5IwHaEK&pid=Api&P=0&h=180" 
                      }];
 
 
@@ -88,7 +88,7 @@ const popularradioCardsData = [{
 const popularplaylistCardsData = [{
     title: "",
     description: "Pumping track for pumping iron.", // Corrected "discription" to "description"
-    imgUrl: "https://tse3.mm.bing.net/th?id=OIP.0mNM1VgA2xXgxdF2NcQ4hgHaFj&pid=Api&P=0&h=180"
+    imgUrl: "https://tse3.mm.bing.net/th?id=OIP.cVXKznZ-iPIQmWWIK5XdXQHaEK&pid=Api&P=0&h=180"
   },
   { title: "",
        description: "Catchy Pop music to keep those legs going.",

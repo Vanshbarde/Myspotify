@@ -1,4 +1,6 @@
-require('dotenv').config();
+const path = require('path'); 
+require('dotenv').config({ 
+  path: path.resolve('C:/Users/vansh/OneDrive/Documents/env for spotify/.env/.env') });
 const express = require('express');
 const mongoose = require('mongoose');
 const passport = require('passport');
@@ -15,7 +17,7 @@ app.use(express.json());
 const authRoutes = require('./routes/auth');
 const songRoutes = require('./routes/song');
 const playlistRoutes = require('./routes/playlist');
-const mongoURI = `mongodb+srv://vanshbarde805:${process.env.MONGO_PASSWORD}@cluster0.kgohx.mongodb.net/spotifyclone?retryWrites=true&w=majority&appName=Cluster0`;
+const mongoURI = `mongodb+srv://vanshbarde805:${process.env.MONGO_PASSWORD}@cluster0.kgohx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0I`
 // MongoDB connection
 mongoose.connect(mongoURI, {
   useNewUrlParser: true,

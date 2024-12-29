@@ -1,6 +1,5 @@
 
  import './App.css';
-import { Icon } from '@iconify/react/dist/iconify.js';
 import './output.css';
 import LoginComponent from './routes/Login';
 import SignupComponent from './routes/Signup';
