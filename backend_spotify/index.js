@@ -6,10 +6,12 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
-
+const cors = require("cors");
 const app = express();
 const port = 3000;
 
+
+app.use(cors());
 // Middleware to parse incoming JSON requests
 app.use(express.json());
 
