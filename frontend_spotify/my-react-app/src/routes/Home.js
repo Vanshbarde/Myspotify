@@ -12,7 +12,7 @@ const popularartistCardsData = [{
   title: "Pritam", 
   description: "Artist", 
   imgUrl: "https://tse3.mm.bing.net/th?id=OIP.0mNM1VgA2xXgxdF2NcQ4hgHaFj&pid=Api&P=0&h=180",
-  //  audioUrl: process.env.PUBLIC_URL + "/assets/admire you song.mp3" // Corrected path 
+  audioUrl: process.env.PUBLIC_URL + "/assets/admire you song.mp3" // Corrected path 
     },
   
 { title: "Arjit Singh",
