@@ -16,31 +16,31 @@ const popularartistCardsData = [{
   title: "Pritam", 
   description: "Artist", 
   imgUrl: "https://tse3.mm.bing.net/th?id=OIP.0mNM1VgA2xXgxdF2NcQ4hgHaFj&pid=Api&P=0&h=180",
-   audioUrl: process.env.PUBLIC_URL + "/assets/admire you song.mp3" // Corrected path 
+   audioUrl: process.env.PUBLIC_URL + "/assets/lapata hogaye dehate dekhate.mp3" // Corrected path 
     },
   
 { title: "Arjit Singh",
      description: "Artist",
       imgUrl: "https://tse3.mm.bing.net/th?id=OIP.aUBC3eCbBd121xP41BCVpwHaEU&pid=Api&P=0&h=180" ,
-      audioUrl: process.env.PUBLIC_URL + "/assets/hamari aduri kahani.mp3" // Corrected path 
+      audioUrl: process.env.PUBLIC_URL + "/assets/roke na ruke naina.mp3" // Corrected path 
  
     },
        { title: "A.R. Rahman", 
         description: "Artist", 
         imgUrl: "https://tse4.mm.bing.net/th?id=OIP.q1ZXKxTPwcXKFfKslzwq3wHaE5&pid=Api&P=0&h=180" ,
-        audioUrl: process.env.PUBLIC_URL + "/assets/ajj mausam bada song.mp3" // Corrected path 
+        audioUrl: process.env.PUBLIC_URL + "/assets/balam pichkari.mp3" // Corrected path 
 
         },
          { title: "Atif Aslam", 
             description: "Artist",
              imgUrl: "https://tse4.mm.bing.net/th?id=OIP.AwOcMS2gUlOjKfCvj3g19gHaEg&pid=Api&P=0&h=180",
-             audioUrl: process.env.PUBLIC_URL + "/assets/glory song1.mp3" // Corrected path 
+             audioUrl: process.env.PUBLIC_URL + "/assets/masakkali song.mp3" // Corrected path 
  
              },
               { title: "Yo Yo Honey Singh",
                  description: "Artist",
                   imgUrl: "https://tse3.mm.bing.net/th?id=OIP.mFLYnR62wnujO9_QA23SHwAAAA&pid=Api&P=0&h=180" ,
-                  audioUrl: process.env.PUBLIC_URL + "/assets/glory song1.mp3" // Corrected path 
+                  audioUrl: process.env.PUBLIC_URL + "/assets/desi kalakar.mp3" // Corrected path 
 
                    }];
 
@@ -125,31 +125,31 @@ const popularplaylistCardsData = [{
     title: "",
     description: "Pumping track for pumping iron.", // Corrected "discription" to "description"
     imgUrl: "https://tse3.mm.bing.net/th?id=OIP.cVXKznZ-iPIQmWWIK5XdXQHaEK&pid=Api&P=0&h=180",
-    audioUrl: process.env.PUBLIC_URL + "/assets/glory song1.mp3" // Corrected path 
+    audioUrl: process.env.PUBLIC_URL + "/assets/mera jii karda.mp3" // Corrected path 
 
   },
   { title: "",
        description: "Catchy Pop music to keep those legs going.",
         imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaT6mIWg1mMAhFECEzghHRb-C93UkkqJJ17Q&s" ,
-        audioUrl: process.env.PUBLIC_URL + "/assets/glory song1.mp3" // Corrected path 
+        audioUrl: process.env.PUBLIC_URL + "/assets/dil ye jiddi hai.mp3" // Corrected path 
 
         },
          { title: "", 
           description: "Get your beast mode on !.", 
           imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgALrTd9gaBrWiojROMSGv7C2YcQsiUAuAmw&s" ,
-          audioUrl: process.env.PUBLIC_URL + "/assets/glory song1.mp3" // Corrected path 
+          audioUrl: process.env.PUBLIC_URL + "/assets/kamali kamali.mp3" // Corrected path 
 
           },
            { title: "", 
               description: "Energy tracks to get your mode on.",
                imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzZOajtRop2budheOKs4UIUte_-PRC1ZSUKg&s",
-               audioUrl: process.env.PUBLIC_URL + "/assets/glory song1.mp3" // Corrected path 
+               audioUrl: process.env.PUBLIC_URL + "/assets/motivation song.mp3" // Corrected path 
  
                },
                 { title: "",
                    description: "Boost your energy with these dance tracks.",
                     imgUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTp2oSP8-MHJRK2jyubw6f_LS-4241czanCZw&s" ,
-                    audioUrl: process.env.PUBLIC_URL + "/assets/glory song1.mp3" // Corrected path 
+                    audioUrl: process.env.PUBLIC_URL + "/assets/brown munde.mp3" // Corrected path 
 
                      }];
                     //  const LoggedinHome = () => {
@@ -202,11 +202,14 @@ const popularplaylistCardsData = [{
   //   };
 
 
-
+  
   const LoggedinHome = () => {
     const [currentlyPlaying, setCurrentlyPlaying] = useState(null);
     const [cookies, setCookie, removeCookie] = useCookies(['token']);
     const navigate = useNavigate();
+  const [searchInput, setSearchInput] = useState(''); // State for search input
+    const [searchResults, setSearchResults] = useState([]);    const [isPaused, setIsPaused] = useState(true);
+    const [currentTrack, setCurrentTrack] = useState({ title: '', description: '', imgUrl: '', audioUrl: '' });
   
     const toggleAudio = (audioRef) => {
       if (currentlyPlaying && currentlyPlaying !== audioRef.current) {
@@ -215,18 +218,32 @@ const popularplaylistCardsData = [{
       if (audioRef.current.paused) {
         audioRef.current.play().then(() => {
           setCurrentlyPlaying(audioRef.current);
+          setCurrentTrack(audioRef.current.src);
+          setIsPaused(false);
         }).catch((error) => {
           console.error('Error playing audio:', error);
         });
       } else {
         audioRef.current.pause();
-        setCurrentlyPlaying(null);
+        setIsPaused(true);
       }
     };
   
     const handleLogout = () => {
       removeCookie('token');
       navigate('/login');
+    };
+
+    // Handle search input change
+    const handleSearchInputChange = (e) => {
+      const value = e.target.value;
+      setSearchInput(value);
+  
+      // Filter songs based on search input
+      const results = [...popularartistCardsData, ...popularalbumsCardsData, ...popularradioCardsData, ...popularplaylistCardsData]
+        .filter(item => item.title.toLowerCase().includes(value.toLowerCase()) || item.description.toLowerCase().includes(value.toLowerCase()));
+  
+      setSearchResults(results);
     };
   
     return (
@@ -290,6 +307,8 @@ const popularplaylistCardsData = [{
                 <input
                   type="text"
                   placeholder="What do you want to play?"
+                  value={searchInput} // Bind search input state
+                  onChange={handleSearchInputChange}
                   className="bg-gray hover:bg-hover-gray2 text-white placeholder-black-800 border border-transparent 
                   hover:border-white rounded-xl px-8 py-1 focus:outline-none focus:border-green-500 ml-4 pl-10"
                 />
@@ -313,7 +332,7 @@ const popularplaylistCardsData = [{
                     className='bg-white h-2/3 px-8 flex items-center font-semibold cursor-pointer justify-center
                   rounded-full border border-transparent hover:border-green-500 hover:border-3'>
                     Vansh
-                    
+  
                   </div>
                   <div>
                     <button onClick={handleLogout}>
@@ -324,6 +343,9 @@ const popularplaylistCardsData = [{
               </div>
             </div>
             <div className='content p-8 pt-0 overflow-auto'>
+            {searchInput && searchResults.length > 0 && (
+                <PlaylistView titleText="Search Results" cardsData={searchResults} />
+              )}
               <PlaylistView titleText="Popular artists" cardsData={popularartistCardsData} toggleAudio={toggleAudio} />
               <PlaylistView titleText="Popular albums and singles" cardsData={popularalbumsCardsData} toggleAudio={toggleAudio} />
               <PlaylistView titleText="Popular radio" cardsData={popularradioCardsData} toggleAudio={toggleAudio} />
@@ -331,52 +353,74 @@ const popularplaylistCardsData = [{
             </div>
           </div>
         </div>
+        <div className='w-full h-1/10 bg-black text-white flex items-center px-4 '>
+          <div className='w-1/3 flex items-center'>
+            <img className='h-16 w-16 rounded' src='https://plus.unsplash.com/premium_photo-1725708358944-844db020a73a?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxfHx8ZW58MHx8fHx8' alt='Current Song' />
+            <div className='pl-4'>
+              <div className='text-sm'>
+                curtains
+              </div>
+              <div className='text-xs text-gray-400'>
+                A.R.Rahaman
+              </div>
+            </div>
+          </div>
+          <div className='w-1/2 flex justify-center hover:underline cursor-pointer h-full flex-col items-center'>
+            <div className='w-1/3 flex justify-between items-center '>
+              <Icon icon="mdi:shuffle" fontSize={27} className='cursor-pointer text-gray-400 hover:text-white' />
+              <Icon icon="mdi:skip-previous" fontSize={27} className='cursor-pointer text-gray-400 hover:text-white' />
+              <Icon icon={isPaused ? "mdi:play" : "mdi:pause"} fontSize={32} className='cursor-pointer text-gray-400 hover:text-white' onClick={() => toggleAudio(currentlyPlaying)} />
+              <Icon icon="mdi:skip-next" fontSize={27} className='cursor-pointer text-gray-400 hover:text-white' />
+              <Icon icon="mdi:repeat" fontSize={27} className='cursor-pointer text-gray-400 hover:text-white' />
+            </div>
+          </div>
+          <div className='w-1/4 flex justify-end'>hi</div>
+        </div>
       </div>
     );
   };
   
+  // Ensure the PlaylistView and Card components are properly integrated
+  const PlaylistView = ({ titleText, cardsData, toggleAudio }) => {
+    return (
+      <div className='text-white mt-8'>
+        <div className='text-2xl font-semibold mb-16'>{titleText}</div>
+        <div className='w-full flex justify-between space-x-4'>
+          {cardsData && cardsData.length > 0 ? (
+            cardsData.map((item) => (
+              <Card
+                key={item.title}
+                title={item.title}
+                description={item.description}
+                imgUrl={item.imgUrl}
+                audioUrl={item.audioUrl}
+                toggleAudio={toggleAudio} // Pass the toggleAudio function
+              />
+            ))
+          ) : (
+            <div className='text-gray-400'>No items available</div>
+          )}
+        </div>
+      </div>
+    );
+  };
   
-const PlaylistView = ({ titleText, cardsData, toggleAudio }) => {
-  return (
-    <div className='text-white mt-8'>
-      <div className='text-2xl font-semibold mb-16'>{titleText}</div>
-      <div className='w-full flex justify-between space-x-4'>
-        {cardsData && cardsData.length > 0 ? (
-          cardsData.map((item) => (
-            <Card
-              key={item.title}
-              title={item.title}
-              description={item.description}
-              imgUrl={item.imgUrl}
-              audioUrl={item.audioUrl}
-              toggleAudio={toggleAudio} // Pass the toggleAudio function
-            />
-          ))
-        ) : (
-          <div className='text-gray-400'>No items available</div>
-        )}
+  const Card = ({ title, description, imgUrl, audioUrl, toggleAudio }) => {
+    const audioRef = useRef(null);
+  
+    return (
+      <div className='bg-black bg-opacity-40 w-1/5 p-4 rounded-xl border 
+      border-transparent hover:border-white hover:shadow-white-6 hover:bg-hover-gray1'>
+        <div className='pb-4 pt-2' onClick={() => toggleAudio(audioRef)}>
+          <img className='w-full rounded-sm' src={imgUrl} alt={`${title} Image`} />
+        </div>
+        <div className='text-white font-semibold py-3'>{title}</div>
+        <div className='text-gray-500 text-sm'>{description}</div>
+        <audio ref={audioRef} src={audioUrl}></audio>
+  
       </div>
-    </div>
-  );
-};
-
-const Card = ({ title, description, imgUrl, audioUrl, toggleAudio }) => {
-  const audioRef = useRef(null);
-
-  return (
-    <div className='bg-black bg-opacity-40 w-1/5 p-4 rounded-xl border 
-    border-transparent hover:border-white hover:shadow-white-6 hover:bg-hover-gray1'>
-      <div className='pb-4 pt-2' onClick={() => toggleAudio(audioRef)}>
-        <img className='w-full rounded-sm' src={imgUrl} alt={`${title} Image`} />
-      </div>
-      <div className='text-white font-semibold py-3'>{title}</div>
-      <div className='text-gray-500 text-sm'>{description}</div>
-      <audio ref={audioRef} src={audioUrl}></audio>
-
-    </div>
-  );
-};
-
-
-
-export default LoggedinHome;
+    );
+  };
+  
+  export default LoggedinHome;
+  
